@@ -97,6 +97,7 @@
 #' # The timeout function is an easy way to do the above.
 #' memA4 <- memoise(a, ~timeout(10))
 #' memA4(2)
+#' NOTE: timeout will never release timed out data!!
 #' @importFrom stats setNames
 memoise <- memoize <- function(f, ..., envir = environment(f), cache = cache_memory()) {
   f_formals <- formals(args(f))
@@ -207,6 +208,9 @@ make_call <- function(name, args) {
 #' remain stable until a given number of seconds have elapsed, after which it
 #' will update to the current time. This makes it useful as a way to timeout
 #' and invalidate a memoised cache after a certain period of time.
+#'
+#' NOTE: timeout will never release timed out data!!
+#'
 #' @param seconds Number of seconds after which to timeout.
 #' @param current The current time as a numeric.
 #' @return A numeric that will remain constant until the seconds have elapsed.
