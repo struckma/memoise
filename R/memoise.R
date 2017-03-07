@@ -119,6 +119,7 @@ memoise <- memoize <- function(f, ..., envir = environment(f), cache = cache_mem
 
   memo_f <- eval(
     bquote(function(...) {
+      has_key_only <- FALSE
       called_args <- as.list(match.call())[-1]
 
       # Formals with a default
@@ -131,13 +132,40 @@ memoise <- memoize <- function(f, ..., envir = environment(f), cache = cache_mem
       args <- c(lapply(called_args, eval, parent.frame()),
         lapply(default_args, eval, envir = environment()))
 
-      hash <- `_cache`$digest(c(args,
-          lapply(`_additional`, function(x) eval(x[[2L]], environment(x)))))
+      wanted_key = c(args,
+                     lapply(`_additional`, function(x) eval(x[[2L]], environment(x))))
+
+      hash0 <- `_cache`$digest(wanted_key)
+
+      # Avoid collisions
+      i = -1
+      repeat {
+        i <- i + 1
+        if (i > 0)
+          hash = paste0(hash0, "__", i)
+        else
+          hash = hash0 ;
+        key_of_key = paste0("__key_of__", hash, collapse = "")
+        if (`_cache`$has_key(key_of_key)) {
+          stored_key <- `_cache`$get(key_of_key)
+          if (isTRUE(all.equal(stored_key, wanted_key)))
+            break # value already cached.
+#          else
+#            ; # collision handling: next iteration
+        } else
+          break; # slot free.
+      }
+      # /Avoid collisions
+
+      if (has_key_only) {
+        return(`_cache`$has_key(hash))
+      }
 
       if (`_cache`$has_key(hash)) {
         res <- `_cache`$get(hash)
       } else {
         res <- withVisible(.(init_call))
+        `_cache`$set(key_of_key, wanted_key)
         `_cache`$set(hash, res)
       }
 
@@ -272,7 +300,7 @@ has_cache <- function(f, ...) {
   # Modify the function body of the function to simply return TRUE and FALSE
   # rather than get or set the results of the cache
   body <- body(f)
-  body[[7]] <- quote(if (`_cache`$has_key(hash)) return(TRUE) else return(FALSE))
+  body[[2]] <- quote(has_key_only <- TRUE)
   body(f) <- body
 
   f

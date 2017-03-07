@@ -78,3 +78,7 @@ gdc <- cache_filesystem("~/Google Drive/.rcache")
 mrunif <- memoise(runif, cache = gdc)
 mrunif(20) # Results stored in Google Drive .rcache folder which will be synced between computers.
 ```
+
+## This development branch
+
+was introduced to avoid hash collisions. It has not been extensively tested yet.

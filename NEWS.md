@@ -1,3 +1,9 @@
+# Version 1.0.0.struckma
+
+* Prevent hash collisions, even if very unlikely. Hash collisions may be a security
+  issue, if caching is used in some security aware context. Also, Murphy tells
+  us, no to fully trust hash functions.
+
 # Version 1.0.0
 
 * Handle missing arguments in memoised functions for simple cases not using
