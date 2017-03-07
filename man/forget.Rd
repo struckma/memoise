@@ -11,8 +11,8 @@ forget(f)
 \item{f}{memoised function}
 }
 \description{
-Forget past results.
-Resets the cache of a memoised function.
+NOTE: This resets the complete cache. If the cache was used for more than one function,
+all cached results will be discarded.
 }
 \examples{
 memX <- memoise(function() { Sys.sleep(1); runif(1) })

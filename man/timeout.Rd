@@ -20,6 +20,9 @@ remain stable until a given number of seconds have elapsed, after which it
 will update to the current time. This makes it useful as a way to timeout
 and invalidate a memoised cache after a certain period of time.
 }
+\details{
+NOTE: timeout will never release timed out data!!
+}
 \examples{
 a <- function(n) { runif(n) }
 memA <- memoise(a, ~timeout(10))

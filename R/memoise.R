@@ -95,9 +95,9 @@
 #' memA3(2)
 #'
 #' # The timeout function is an easy way to do the above.
+#' # NOTE: timeout will never release timed out data!!
 #' memA4 <- memoise(a, ~timeout(10))
 #' memA4(2)
-#' NOTE: timeout will never release timed out data!!
 #' @importFrom stats setNames
 memoise <- memoize <- function(f, ..., envir = environment(f), cache = cache_memory()) {
   f_formals <- formals(args(f))
@@ -133,7 +133,8 @@ memoise <- memoize <- function(f, ..., envir = environment(f), cache = cache_mem
       args <- c(lapply(called_args, eval, parent.frame()),
         lapply(default_args, eval, envir = environment()))
 
-      wanted_key = c(args,
+      wanted_key = c(body(`_f`),
+                     args,
                      lapply(`_additional`, function(x) eval(x[[2L]], environment(x))))
 
       hash0 <- `_cache`$digest(wanted_key)
@@ -248,6 +249,9 @@ print.memoised <- function(x, ...) {
 
 #' Forget past results.
 #' Resets the cache of a memoised function.
+#'
+#' NOTE: This resets the complete cache. If the cache was used for more than one function,
+#' all cached results will be discarded.
 #'
 #' @param f memoised function
 #' @export

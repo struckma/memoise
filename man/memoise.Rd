@@ -104,6 +104,7 @@ memA3 <- memoise(a, ~{current <- as.numeric(Sys.time()); (current - current \%\%
 memA3(2)
 
 # The timeout function is an easy way to do the above.
+# NOTE: timeout will never release timed out data!!
 memA4 <- memoise(a, ~timeout(10))
 memA4(2)
 }
