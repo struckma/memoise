@@ -14,3 +14,12 @@ skip_on_travis_pr <- function() {
 
   invisible(TRUE)
 }
+
+skip_without_parallel <- function() {
+  if ("parallel" %in% rownames(installed.packages())) {
+    require(parallel, quietly = TRUE)
+    if (parallel::detectCores() > 1)
+      return(invisible(TRUE))
+  }
+  return(testthat::skip("parallel library missing or only one core available."))
+}

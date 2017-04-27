@@ -44,6 +44,7 @@ cache_filesystem <- function(path, algo = "xxhash64") {
     if (!file.rename(tfile, file)) {                                                            #
       stop("Cannot rename temporary file ", tfile, " to ", file)                                #
     }                                                                                           #
+    invisible(value)
   }
 
   cache_get <- function(key) {
