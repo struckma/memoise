@@ -35,7 +35,15 @@ cache_filesystem <- function(path, algo = "xxhash64") {
   }
 
   cache_set <- function(key, value) {
-    saveRDS(value, file = file.path(path, key))
+    file = file.path(path, key)
+    tfile <- tempfile(basename(file), dirname(file))                                            # http://r.789695.n4.nabble.com/Risk-of-readRDS-not-detecting-race-conditions-with-parallel-saveRDS-td4643235.html
+    on.exit(if (file.exists(tfile)) unlink(tfile))                                              #
+    retval <- saveRDS(value, tfile)                                                             #
+    if (file.exists(file))                                                                      #
+      unlink(file)                                                                              #
+    if (!file.rename(tfile, file)) {                                                            #
+      stop("Cannot rename temporary file ", tfile, " to ", file)                                #
+    }                                                                                           #
   }
 
   cache_get <- function(key) {
