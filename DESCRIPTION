@@ -1,12 +1,13 @@
 Encoding: UTF-8
 Package: memoise
 Title: Memoisation of Functions
-Version: 1.0.0.9001
+Version: 1.0.0.9002
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", role = "aut"),
     person("Jim", "Hester", , "jim.hester@rstudio.com", role = c("aut", "cre")),
     person("Kirill", "Müller", , "krlmlr+r@mailbox.org", role = "aut"),
-    person("Daniel", "Cook", , "danielecook@gmail.com", role = "aut"))
+    person("Daniel", "Cook", , "danielecook@gmail.com", role = "aut"),
+    person("Stephan", "Struckmann", , "stephan.struckmann@gmail.com", role = "aut"))
 Description: Cache the results of a function so that when you call it
     again with the same arguments it returns the pre-computed value.
 URL: https://github.com/hadley/memoise

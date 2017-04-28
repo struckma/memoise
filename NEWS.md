@@ -1,4 +1,8 @@
-# Version 1.0.0.struckma
+# Version 1.0.0.9002
+
+* Tried to make it more thread-safe. RFC, if it really is.
+
+# Version 1.0.0.9001
 
 * Prevent hash collisions, even if very unlikely. Hash collisions may be a security
   issue, if caching is used in some security aware context. Also, Murphy tells
