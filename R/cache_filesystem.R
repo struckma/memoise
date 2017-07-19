@@ -26,7 +26,7 @@
 cache_filesystem <- function(path, algo = "xxhash64") {
 
   if (!dir.exists(path)) {
-    dir.create(path, showWarnings = FALSE)
+    dir.create(path, showWarnings = FALSE, recursive = TRUE)
   }
 
   cache_reset <- function() {
@@ -35,6 +35,9 @@ cache_filesystem <- function(path, algo = "xxhash64") {
   }
 
   cache_set <- function(key, value) {
+    if (!dir.exists(path)) {
+      dir.create(path, showWarnings = FALSE, recursive = TRUE)
+    }
     file = file.path(path, key)
     tfile <- tempfile(basename(file), dirname(file))                                            # http://r.789695.n4.nabble.com/Risk-of-readRDS-not-detecting-race-conditions-with-parallel-saveRDS-td4643235.html
     on.exit(if (file.exists(tfile)) unlink(tfile))                                              #

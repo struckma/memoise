@@ -1,3 +1,7 @@
+# Version 1.0.0.9003
+
+* Fixed missing base dir
+
 # Version 1.0.0.9002
 
 * Tried to make it more thread-safe. RFC, if it really is.
