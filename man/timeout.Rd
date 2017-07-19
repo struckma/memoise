@@ -31,4 +31,3 @@ memA(2)
 \seealso{
 \code{\link{memoise}}
 }
-
