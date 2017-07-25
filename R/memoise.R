@@ -313,3 +313,28 @@ has_cache <- function(f, ...) {
 
   f
 }
+
+#' convert memoised function back to unmemoised function
+#' @param f the memoised function
+#'
+#' @return the unmemoised version of f
+#' @export
+#'
+#' @examples
+#' hello <- function() { print("Hello, world!") }
+#' hello()
+#' hello()
+#' is.memoised(hello)
+#' hello <- memoise(hello)
+#' hello()
+#' hello()
+#' is.memoised(hello)
+#' hello <- unmemoise(hello)
+#' is.memoised(hello)
+#' hello()
+unmemoise <- function(f) {
+  stopifnot(is.memoized(f))
+  res <- environment(f)$`_f`
+  attributes(res) <- NULL
+  return(res)
+}

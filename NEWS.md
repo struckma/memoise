@@ -1,3 +1,7 @@
+# Version 1.0.0.9004
+
+* Added an unmemoise function
+
 # Version 1.0.0.9003
 
 * Fixed missing base dir
